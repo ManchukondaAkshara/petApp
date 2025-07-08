@@ -1,32 +1,41 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import {
   useUser,
   UserButton,
   SignInButton,
-} from "@clerk/clerk-react"
-import { TicketPlus } from "lucide-react"
-import { Navigate, useNavigate } from "react-router-dom"
+} from "@clerk/clerk-react";
+import { TicketPlus } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { user } = useUser()
-  const [isOpen, setIsOpen] = useState(false)
+  const navData = {
+    Home: "/",
+    Services: "/services",
+    About: "/about",
+    Contact: "/contact",
+    Blog: "/blog",
+  };
 
-  const toggleMenu = () => setIsOpen(!isOpen)
-  const navigate = useNavigate()
+  const { user } = useUser();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const navigate = useNavigate();
+
   return (
     <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-sm">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         {/* Logo */}
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
             src="https://flowbite.com/docs/images/logo.svg"
             className="h-8"
             alt="Logo"
           />
           <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">
-            PetSite
+            Petique
           </span>
-        </a>
+        </Link>
 
         {/* Mobile menu toggle */}
         <button
@@ -65,14 +74,14 @@ const Navbar = () => {
           } w-full md:flex md:w-auto transition-all duration-300`}
         >
           <ul className="font-medium flex flex-col md:flex-row md:space-x-8 mt-4 md:mt-0 bg-gray-50 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 p-4 md:p-0 rounded-lg md:rounded-none">
-            {["Home", "About", "Services", "Pricing", "Contact"].map((item) => (
-              <li key={item}>
-                <a
-                  href="#"
+            {Object.entries(navData).map(([name, link]) => (
+              <li key={name}>
+                <Link
+                  to={link}
                   className="block py-2 px-3 text-gray-700 dark:text-white rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700 md:hover:text-blue-700 transition-colors duration-200"
                 >
-                  {item}
-                </a>
+                  {name}
+                </Link>
               </li>
             ))}
 
@@ -85,12 +94,14 @@ const Navbar = () => {
                   </span>
                 </SignInButton>
               ) : (
-                <div className="flex items-center gap-2">
-                  <UserButton>
-                    <UserButton.MenuItems>
-                      <UserButton.Action label = "My Orders" labelIcon = {<TicketPlus width = {15}/>} onClick={() => navigate('/my-bookings')}/>
-                    </UserButton.MenuItems>
-                  </UserButton>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => navigate("/my-bookings")}
+                    className="flex items-center py-2 px-3 text-gray-700 dark:text-white rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700 md:hover:text-blue-700 transition-colors duration-200"
+                  >
+                    <TicketPlus className="w-4 h-4 mr-1" /> My Orders
+                  </button>
+                  <UserButton afterSignOutUrl="/" />
                 </div>
               )}
             </li>
@@ -98,7 +109,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

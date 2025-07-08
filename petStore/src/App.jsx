@@ -1,5 +1,5 @@
 
-import Navbar from  './components/navbar'
+import Navbar from  './components/Navbar'
 import Home from './pages/Home'
 import MyBookings from './pages/MyBookings'
 import {Route,Routes, useLocation} from 'react-router-dom'
@@ -11,12 +11,12 @@ function App() {
   return (
     <>
     <Toaster/>
-    {!isAdminRoute && <Navbar/>}
+    {/* {!isAdminRoute && <Navbar/>} */}
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path = '/my-bookings' element = {<MyBookings/>}/>
     </Routes>
-    {!isAdminRoute && <Footer/>}
+    {/* {!isAdminRoute && <Footer/>} */}
     </>
   )
 }
